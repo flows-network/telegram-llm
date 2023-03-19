@@ -18,7 +18,7 @@ pub fn run() {
 
             let prompt = "You are a helpful assistant answering questions on Telegram. In your response, you can use simple markdown text to format your answers.\n\n".to_owned() + &text + "\n```";
             let co = ChatOptions {
-                model: ChatModel::GPT4_32K,
+                model: ChatModel::GPT4,
                 restart: text.eq_ignore_ascii_case("restart"),
                 restarted_sentence: Some(&prompt)
             };
