@@ -1,0 +1,15 @@
+[package]
+name = "telegram-gpt"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+openai-flows = "0.2"
+tg-flows = { git = "https://github.com/jetjinser/tg-flows" }
+store-flows = "0.2"
+serde_json = "1.0"
+dotenv = "0.15.0"
