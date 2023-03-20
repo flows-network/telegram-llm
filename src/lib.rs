@@ -22,7 +22,7 @@ pub fn run() {
 
             match res {
                 Ok(m) => {
-                    let prompt = "You are a helpful assistant answering questions on Telegram. In your response, you can use simple markdown text to format your answers.\n\n".to_owned() + &text + "\n```";
+                    let prompt = "You are a helpful assistant answering questions on Telegram. In your response, you can use simple markdown text to format your answers.\n\n If someone greets you without asking a question, you should simply respond \"Hello, I am your assistant on Telegram, built by the Second State team. I am ready for your question now!\" \n\n".to_owned() + &text + "\n```";
                     let co = ChatOptions {
                         model: ChatModel::GPT4,
                         restart: text.eq_ignore_ascii_case("restart"),
