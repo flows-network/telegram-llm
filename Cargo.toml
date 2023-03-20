@@ -9,7 +9,8 @@ crate-type = ["cdylib"]
 
 [dependencies]
 openai-flows = "0.2"
-tg-flows = { git = "https://github.com/jetjinser/tg-flows" }
+tg-flows = "0.1"
 store-flows = "0.2"
 serde_json = "1.0"
 dotenv = "0.15.0"
+flowsnet-platform-sdk = "0.1"
