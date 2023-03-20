@@ -22,7 +22,7 @@ pub fn run() {
 
             match res {
                 Ok(m) => {
-                    let prompt = "You are a helpful assistant answering questions on Telegram. In your response, you can use simple markdown text to format your answers.\n\n If someone greets you without asking a question, you should simply respond \"Hello, I am your assistant on Telegram, built by the Second State team. I am ready for your question now!\" \n\n".to_owned() + &text + "\n```";
+                    let prompt = "You are a helpful assistant answering questions on Telegram.\n\n If someone greets you without asking a question, you can simply respond \"Hello, I am your assistant on Telegram, built by the Second State team. I am ready for your question now!\" \n\n".to_owned() + &text + "\n```";
                     let co = ChatOptions {
                         model: ChatModel::GPT4,
                         restart: text.eq_ignore_ascii_case("restart"),
@@ -32,9 +32,11 @@ pub fn run() {
                     let c = chat_completion(&openai_key_name, &chat_id.to_string(), &text, &co);
                     if let Some(c) = c {
                         if c.restarted {
-                            _ = tele.send_message(chat_id, "Let's start a new conversation!".to_string());
+                            // _ = tele.send_message(chat_id, "Let's start a new conversation!".to_string());
+                            _ = tele.edit_message_text(chat_id, m.id, "I am starting a new conversation since it has been over 10 minutes from your last reply. You can also tell me to restart by typing \"restart\" into the chat.\n\n".to_string() + &c.choice);
+                        } else {
+                            _ = tele.edit_message_text(chat_id, m.id, c.choice);
                         }
-                        _ = tele.edit_message_text(chat_id, m.id, c.choice);
                     }
                 }
 
