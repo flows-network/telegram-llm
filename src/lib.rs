@@ -18,7 +18,7 @@ pub fn run() {
             let text = msg.text().unwrap_or("");
             let chat_id = msg.chat.id;
 
-            let res = tele.send_message(chat_id, "Lemme think ...");
+            let res = tele.send_message(chat_id, "thinking ...");
 
             match res {
                 Ok(m) => {
