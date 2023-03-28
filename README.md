@@ -10,7 +10,7 @@ The example in the above image is to leverage ChatGPT to generate code comments.
 
 * You will need an [OpenAI API key](https://openai.com/blog/openai-api). If you do not already have one, [sign up here](https://platform.openai.com/signup).
 
-* You also need a Telegram token to access the HTTP API. If you don't already have one, go to Telegram to get a telegram bot token from [@bothfather](https://telegram.me/BotFather).
+* You also need a Telegram token to access the HTTP API. If you don't already have one, go to Telegram to get a telegram bot token from [@botfather](https://telegram.me/BotFather).
 
 
 
