@@ -21,7 +21,7 @@ pub fn run() {
             let co = ChatOptions {
                 model: ChatModel::GPT4,
                 restart: text.eq_ignore_ascii_case("restart"),
-                restarted_sentence: Some(&prompt)
+                restarted_sentence: Some(prompt)
             };
 
             let c = chat_completion(&openai_key_name, &chat_id.to_string(), &text, &co);
