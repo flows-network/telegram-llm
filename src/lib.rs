@@ -19,7 +19,7 @@ pub fn run() {
 
             let prompt = "You are a helpful assistant answering questions on Telegram.\n\nIf someone greets you without asking a question, you can simply respond \"Hello, I am your assistant on Telegram, built by the Second State team. I am ready for your question now!\"";
             let co = ChatOptions {
-                model: ChatModel::GPT4,
+                model: ChatModel::GPT35Turbo,
                 restart: text.eq_ignore_ascii_case("restart"),
                 restarted_sentence: Some(prompt)
             };
