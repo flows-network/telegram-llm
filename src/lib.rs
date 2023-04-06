@@ -22,7 +22,8 @@ pub fn run() {
                 // model: ChatModel::GPT4,
                 model: ChatModel::GPT35Turbo,
                 restart: text.eq_ignore_ascii_case("restart"),
-                system_prompt: Some(system)
+                system_prompt: Some(system),
+                retry_times: 3,
             };
             if text.eq_ignore_ascii_case("restart") { text = "Hello"; }
             let c = chat_completion(&openai_key_name, &chat_id.to_string(), &text, &co);
