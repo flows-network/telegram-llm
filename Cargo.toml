@@ -8,9 +8,12 @@ path = "src/lib.rs"
 crate-type = ["cdylib"]
 
 [dependencies]
-openai-flows = "0.4"
-tg-flows = "0.1"
+openai-flows = "0.7"
+tg-flows = "0.2"
 store-flows = "0.2"
 serde_json = "1.0"
 dotenv = "0.15.0"
 flowsnet-platform-sdk = "0.1"
+log = "0.4"
+tokio_wasi = { version = "1.25.1", features = ["macros", "rt"] }
+anyhow = "1"
