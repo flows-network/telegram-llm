@@ -1,10 +1,9 @@
-use openai_flows::{chat_completion, ChatModel, ChatOptions};
+use openai_flows::{chat_completion_default_key, ChatModel, ChatOptions};
 use std::env;
 use tg_flows::{listen_to_update, Telegram, UpdateKind};
 
 #[no_mangle]
 pub fn run() {
-    let openai_key_name = env::var("openai_key_name").unwrap_or("chatmichael".to_string());
     let placeholder_text = env::var("placeholder").unwrap_or("I'm thinking".to_string());
     let telegram_token = env::var("telegram_token").unwrap();
 
@@ -30,7 +29,7 @@ pub fn run() {
             if text.eq_ignore_ascii_case("restart") {
                 text = "Hello";
             }
-            let c = chat_completion(&openai_key_name, &chat_id.to_string(), text, &co);
+            let c = chat_completion_default_key(&chat_id.to_string(), text, &co);
             if let Some(c) = c {
                 if c.restarted {
                     _ =   tele.edit_message_text(
