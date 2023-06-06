@@ -62,10 +62,11 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
                 None => false,
             };
             if restart {
+                log::info!("Detected restart = true");
                 set(&chat_id.to_string(), json!(false), None);
+                co.restart = true;
             }
 
-            co.restart = restart;
             match openai.chat_completion(&chat_id.to_string(), &text, &co).await {
                 Ok(r) => {
                     _ = tele.edit_message_text(chat_id, placeholder.id, r.choice);
