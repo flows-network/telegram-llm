@@ -44,12 +44,12 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
 
         } else if text.eq_ignore_ascii_case("/start") {
             _ = tele.send_message(chat_id, help_mesg);
-            set("restart", json!(true), None);
+            set(&chat_id.to_string(), json!(true), None);
             log::info!("Started converstion for {}", chat_id);
 
         } else if text.eq_ignore_ascii_case("/restart") {
             _ = tele.send_message(chat_id, "Ok, I am starting a new conversation.");
-            set("restart", json!(true), None);
+            set(&chat_id.to_string(), json!(true), None);
             log::info!("Restarted converstion for {}", chat_id);
 
         } else {
@@ -57,10 +57,13 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
                 .send_message(chat_id, placeholder_text)
                 .expect("Error occurs when sending Message to Telegram");
 
-            let restart = match get("restart") {
+            let restart = match get(&chat_id.to_string()) {
                 Some(v) => v.as_bool().unwrap_or_default(),
                 None => false,
             };
+            if restart {
+                set(&chat_id.to_string(), json!(false), None);
+            }
 
             co.restart = restart;
             match openai.chat_completion(&chat_id.to_string(), &text, &co).await {
