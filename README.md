@@ -11,11 +11,11 @@
   </a>
 </p>
 
-Deploy this function on flows.network, and you will get a Telegram bot that uses ChatGPT to respond to every question in your Telegram DM or channel/group automatically.
+[Deploy this function on flows.network](https://flows.network/flow/createByTemplate/Telegram-ChatGPT), and you will get a Telegram bot that uses ChatGPT to respond to every question in your Telegram DM or channel/group automatically.
+Try a couple of Telegram bot on flows.network yourself!
 
-<img width="1151" alt="image" src="https://user-images.githubusercontent.com/45785633/226554378-0ea64870-186d-4449-9ae8-d84a2bedf8f6.png">
+* The [multimodal assistant bot](https://t.me/flows_english_assistant_bot) is based on this template. It can recognize text on uploaded pictures using flows.network's built in OCR service. It also has several task prompts already set up as slash commands. 
 
-The example in the above image is to leverage ChatGPT to generate code comments.
 
 ## Prerequisites
 
