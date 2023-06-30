@@ -12,8 +12,9 @@
 </p>
 
 [Deploy this function on flows.network](https://flows.network/flow/createByTemplate/Telegram-ChatGPT), and you will get a Telegram bot that uses ChatGPT to respond to every question in your Telegram DM or channel/group automatically.
-Try a couple of Telegram bot on flows.network yourself!
+Try a couple of Telegram bots on flows.network yourself!
 
+* This is a [simple ChatGPT bot](https://t.me/flows_network_gpt_bot) that is created directly from the template. 
 * The [multimodal assistant bot](https://t.me/flows_english_assistant_bot) is based on this template. It can recognize text on uploaded pictures using flows.network's built in OCR service. It also has several task prompts already set up as slash commands. 
 
 
