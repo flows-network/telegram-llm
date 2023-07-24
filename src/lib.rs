@@ -1,5 +1,8 @@
 use serde_json::json;
-use tg_flows::{listen_to_update, Telegram, Update, UpdateKind};
+use tg_flows::{
+    listen_to_update, Telegram, Update, UpdateKind,
+    ChatKind::{Public, Private}
+};
 use openai_flows::{
     chat::{ChatModel, ChatOptions},
     OpenAIFlows,
@@ -29,6 +32,30 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
         let chat_id = msg.chat.id;
         log::info!("Received message from {}", chat_id);
 
+        let text = msg.text().unwrap_or("");
+        if text.is_empty() {
+            return;
+        }
+        match msg.chat.kind {
+            Public(ref _cp) => {
+                // Message from a public group
+                let me = tele.get_me().unwrap();
+                let username = me.username();
+
+                if let Some(parent_msg) = msg.reply_to_message() {
+                    let parent = parent_msg.from().unwrap();
+                    if parent.id != me.id {
+                        return;
+                    }
+                } else if !text.contains(username) {
+                    return;
+                }
+            }
+            Private(ref _cp) => {
+                // Private message
+            }
+        }
+
         let mut openai = OpenAIFlows::new();
         openai.set_retry_times(3);
         let mut co = ChatOptions {
@@ -38,7 +65,6 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
             system_prompt: Some(system_prompt),
         };
 
-        let text = msg.text().unwrap_or("");
         if text.eq_ignore_ascii_case("/help") {
             _ = tele.send_message(chat_id, help_mesg);
 
