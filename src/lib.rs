@@ -32,35 +32,35 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
         let chat_id = msg.chat.id;
         log::info!("Received message from {}", chat_id);
 
-        let text = msg.text().unwrap_or("");
+        let mut text = msg.text().unwrap_or("");
+        let mut text_string = String::from(text);
         if text.is_empty() {
             return;
         }
         match msg.chat.kind {
             Public(ref _cp) => {
                 // Message from a public group
+                let me = tele.get_me().unwrap();
+                let username = me.username();
 
                 if text.starts_with("/") {
                     // Command OK!
+                } else if text.contains(username) {
+                    // Mentions me!
+                    text_string = (&text_string).replace(username, "");
+                    text_string = (&text_string).replace("@", "");
+                    text = &text_string;
+
+                } else if let Some(parent_msg) = msg.reply_to_message() {
+                    // A reply
+                    let parent = parent_msg.from().unwrap();
+                    if parent.id != me.id {
+                        // Not replying to the bot
+                        return;
+                    }
                 } else {
-                    let me = tele.get_me().unwrap();
-                    let username = me.username();
-
-                    if !text.contains(username) {
-                        // Did not mention me
-                        return;
-                    }
-
-                    if let Some(parent_msg) = msg.reply_to_message() {
-                        let parent = parent_msg.from().unwrap();
-                        if parent.id != me.id {
-                            // Not replying to the bot
-                            return;
-                        }
-                    } else {
-                        // Not a reply
-                        return;
-                    }
+                    // Not meeting any of the above
+                    return;
                 }
             }
             Private(ref _cp) => {
