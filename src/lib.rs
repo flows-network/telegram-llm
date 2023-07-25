@@ -39,16 +39,28 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
         match msg.chat.kind {
             Public(ref _cp) => {
                 // Message from a public group
-                let me = tele.get_me().unwrap();
-                let username = me.username();
 
-                if let Some(parent_msg) = msg.reply_to_message() {
-                    let parent = parent_msg.from().unwrap();
-                    if parent.id != me.id {
+                if text.starts_with("/") {
+                    // Command OK!
+                } else {
+                    let me = tele.get_me().unwrap();
+                    let username = me.username();
+
+                    if !text.contains(username) {
+                        // Did not mention me
                         return;
                     }
-                } else if !text.contains(username) {
-                    return;
+
+                    if let Some(parent_msg) = msg.reply_to_message() {
+                        let parent = parent_msg.from().unwrap();
+                        if parent.id != me.id {
+                            // Not replying to the bot
+                            return;
+                        }
+                    } else {
+                        // Not a reply
+                        return;
+                    }
                 }
             }
             Private(ref _cp) => {
