@@ -30,12 +30,11 @@ async fn handler(update: Update) {
 
         let mut openai = OpenAIFlows::new();
         openai.set_retry_times(3);
-        let mut co = ChatOptions {
-            // model: ChatModel::GPT4,
-            model: ChatModel::GPT35Turbo,
-            restart: false,
-            system_prompt: Some(&system_prompt),
-        };
+        let mut co = ChatOptions::default();
+        // co.model = ChatModel::GPT4;
+        co.model = ChatModel::GPT35Turbo16K;
+        co.restart = false;
+        co.system_prompt = Some(&system_prompt);
 
         let text = msg.text().unwrap_or("");
         if text.eq_ignore_ascii_case("/help") {
