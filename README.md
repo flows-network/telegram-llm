@@ -1,4 +1,4 @@
-# <p align="center">A Telegram ChatGPT bot</p>
+# <p align="center">A Telegram LLM bot</p>
 <p align="center">
   <a href="https://discord.gg/ccZn9ZMfFf">
     <img src="https://img.shields.io/badge/chat-Discord-7289DA?logo=discord" alt="flows.network Discord">
@@ -11,12 +11,38 @@
   </a>
 </p>
 
-[Deploy this function on flows.network](https://flows.network/flow/createByTemplate/Telegram-ChatGPT), and you will get a Telegram bot that uses ChatGPT to respond to every question in your Telegram DM or channel/group automatically.
+Try this [simple bot](https://t.me/flows_network_gpt_bot) created from this template. 
 
-Try a couple of Telegram bots on flows.network yourself!
+## Deploy your Telegram bot in 3 simple steps
 
-* This is a [simple ChatGPT bot](https://t.me/flows_network_gpt_bot) that is created directly from the template. 
-* The [multimodal assistant bot](https://t.me/flows_english_assistant_bot) is based on this template. It can recognize text on uploaded pictures using flows.network's built in OCR service. It also has several task prompts already set up as slash commands. 
+1. Create a flow function
+2. Configure the flow function to access the Telegram bot
+3. Configure the flow function to access an LLM backend
+
+### 0 Prerequisites
+
+You will need to sign into [flows.network](https://flows.network/) from your GitHub account. It is free.
+
+You also need a bot token to access the Telegram API. If you don't already have one, go to Telegram to get a bot token from [@botfather](https://telegram.me/BotFather).
+
+### 1 Create a flow function
+
+Just fork this repo to your own GitHub account.
+
+Then, from [flows.network](https://flows.network/), you can "Create a Flow" and select your forked repo.
+It will create a flow function based on the code in your forked repo.
+
+Click on the "Advanced" button to see configuration options for the flow function.
+
+### 2 Configure the flow function to access the Telegram bot
+
+
+
+
+
+
+
+
 
 
 ## Prerequisites

@@ -1,11 +1,12 @@
 use serde_json::json;
 use tg_flows::{listen_to_update, Telegram, Update, UpdateKind, update_handler};
-use openai_flows::{
-    chat::{ChatModel, ChatOptions},
-    OpenAIFlows,
-};
 use store_flows::{get, set};
 use flowsnet_platform_sdk::logger;
+use llmservice_flows::{
+    chat::{ChatOptions},
+    LLMServiceFlows,
+};
+use std::env;
 
 #[no_mangle]
 #[tokio::main(flavor = "current_thread")]
@@ -17,10 +18,15 @@ pub async fn on_deploy() {
 #[update_handler]
 async fn handler(update: Update) {
     logger::init();
+
     let telegram_token = std::env::var("telegram_token").unwrap();
     let placeholder_text = std::env::var("placeholder").unwrap_or("Typing ...".to_string());
     let system_prompt = std::env::var("system_prompt").unwrap_or("You are a helpful assistant answering questions on Telegram.".to_string());
     let help_mesg = std::env::var("help_mesg").unwrap_or("I am your assistant on Telegram. Ask me any question! To start a new conversation, type the /restart command.".to_string());
+    let llm_api_endpoint = env::var("llm_api_endpoint").unwrap_or("https://llama.us.gaianet.network/v1".to_string());
+    let llm_model_name = env::var("llm_model_name").unwrap_or("llama".to_string());
+    let llm_ctx_size = env::var("llm_ctx_size").unwrap_or("16384".to_string()).parse::<u32>().unwrap_or(0);
+    let llm_api_key = env::var("llm_api_key").unwrap_or("LLAMAEDGE".to_string());
 
     let tele = Telegram::new(telegram_token.to_string());
 
@@ -28,13 +34,16 @@ async fn handler(update: Update) {
         let chat_id = msg.chat.id;
         log::info!("Received message from {}", chat_id);
 
-        let mut openai = OpenAIFlows::new();
-        openai.set_retry_times(3);
-        let mut co = ChatOptions::default();
-        // co.model = ChatModel::GPT4;
-        co.model = ChatModel::GPT35Turbo;
-        co.restart = false;
-        co.system_prompt = Some(&system_prompt);
+        let mut lf = LLMServiceFlows::new(&llm_api_endpoint);
+        lf.set_api_key(&llm_api_key);
+
+        let mut co = ChatOptions {
+            model: Some(&llm_model_name),
+            token_limit: llm_ctx_size,
+            restart: false,
+            system_prompt: Some(&system_prompt),
+            ..Default::default()
+        };
 
         let text = msg.text().unwrap_or("");
         if text.eq_ignore_ascii_case("/help") {
@@ -65,13 +74,13 @@ async fn handler(update: Update) {
                 co.restart = true;
             }
 
-            match openai.chat_completion(&chat_id.to_string(), &text, &co).await {
+            match lf.chat_completion(&chat_id.to_string(), &text, &co).await {
                 Ok(r) => {
                     _ = tele.edit_message_text(chat_id, placeholder.id, r.choice);
                 }
                 Err(e) => {
                     _ = tele.edit_message_text(chat_id, placeholder.id, "Sorry, an error has occured. Please try again later!");
-                    log::error!("OpenAI returns error: {}", e);
+                    log::error!("LLM service returns error: {}", e);
                 }
             }
         }

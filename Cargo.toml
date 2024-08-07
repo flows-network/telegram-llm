@@ -3,17 +3,23 @@ name = "telegram-gpt"
 version = "0.1.0"
 edition = "2021"
 
+[patch.crates-io]
+tokio = { git = "https://github.com/second-state/wasi_tokio.git", branch = "v1.36.x" }
+socket2 = { git = "https://github.com/second-state/socket2.git", branch = "v0.5.x" }
+hyper = { git = "https://github.com/second-state/wasi_hyper.git", branch = "v0.14.x" }
+reqwest = { git = "https://github.com/second-state/wasi_reqwest.git", branch = "0.11.x" }
+
 [lib]
 path = "src/lib.rs"
 crate-type = ["cdylib"]
 
 [dependencies]
-openai-flows = "0.8"
+llmservice-flows = "0.3.0"
 tg-flows = "0.3"
 store-flows = "0.3"
 serde_json = "1.0"
 dotenv = "0.15.0"
 flowsnet-platform-sdk = "0.1"
 log = "0.4"
-tokio_wasi = { version = "1.25.1", features = ["macros", "rt"] }
 anyhow = "1"
+tokio = { version = "1", features = ["rt", "macros", "net", "time"] }
