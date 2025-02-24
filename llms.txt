@@ -1,0 +1,6 @@
+This is a Rust cargo project. 
+
+* The `Cargo.toml` file contains the dependencies. 
+* The `src/lib.rs` file contains the Rust source code. 
+
+The application depends on the tokio, hyper, and reqwest crates for network operations. It starts by listening to API updates from the Telegram platform. When it receives bot messages as updates, it will call an OpenAI API to process the text in the update, and then sends back the result to the Telegram bot to display to the user.
